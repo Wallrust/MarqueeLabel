@@ -1413,21 +1413,9 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
     return !(presentationLayer.position.x == self.homeLabelFrame.origin.x);
 }
 
--(CGFloat)scrollingOffset{
-  NSTimeInterval elapsedAnimationTime = [[NSDate date] timeIntervalSinceDate:self.awayAnimationStartDate];
-  if (elapsedAnimationTime < self.animationDelay) {
-    return 0.f;
-  }
-  if (elapsedAnimationTime > self.animationDelay && elapsedAnimationTime < self.animationDelay + self.animationDuration) {
-    return self.rate * (elapsedAnimationTime - self.animationDelay);
-  }
-  if (elapsedAnimationTime > self.animationDelay + self.animationDuration && elapsedAnimationTime < self.animationDelay + self.animationDuration + self.animationDelay) {
-    return -self.awayOffset;
-  }
-  if (elapsedAnimationTime > self.animationDelay + self.animationDuration + self.animationDelay && elapsedAnimationTime < self.animationDelay + self.animationDuration + self.animationDelay + self.animationDuration) {
-    return -self.awayOffset - self.rate * (elapsedAnimationTime - self.animationDelay - self.animationDuration - self.animationDelay);
-  }
-  return 0.f;
+- (CGFloat)scrollingOffset
+{
+  return -[[self.subLabel.layer presentationLayer] position].x;
 }
 
 #pragma mark - Support

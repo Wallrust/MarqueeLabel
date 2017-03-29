@@ -409,7 +409,7 @@ IB_DESIGNABLE
 
 @property (nonatomic, assign, readonly) BOOL awayFromHome;
 
--(CGFloat)scrollingOffset;
+- (CGFloat)scrollingOffset;
 
 
 ////////////////////////////////////////////////////////////////////////////////
