@@ -42,6 +42,7 @@ typedef void(^MLAnimationCompletionBlock)(BOOL finished);
 @property (nonatomic, assign) CGRect homeLabelFrame;
 @property (nonatomic, assign) CGFloat awayOffset;
 @property (nonatomic, assign, readwrite) BOOL isPaused;
+@property (nonatomic, strong) NSDate *awayAnimationStartDate;
 
 // Support
 @property (nonatomic, strong) NSArray *gradientColors;
@@ -1328,6 +1329,23 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
         return NO;
     }
     return !(presentationLayer.position.x == self.homeLabelFrame.origin.x);
+}
+
+-(CGFloat)scrollingOffset{
+  NSTimeInterval elapsedAnimationTime = [[NSDate date] timeIntervalSinceDate:self.awayAnimationStartDate];
+  if (elapsedAnimationTime < self.animationDelay) {
+    return 0.f;
+  }
+  if (elapsedAnimationTime > self.animationDelay && elapsedAnimationTime < self.animationDelay + self.animationDuration) {
+    return self.rate * (elapsedAnimationTime - self.animationDelay);
+  }
+  if (elapsedAnimationTime > self.animationDelay + self.animationDuration && elapsedAnimationTime < self.animationDelay + self.animationDuration + self.animationDelay) {
+    return -self.awayOffset;
+  }
+  if (elapsedAnimationTime > self.animationDelay + self.animationDuration + self.animationDelay && elapsedAnimationTime < self.animationDelay + self.animationDuration + self.animationDelay + self.animationDuration) {
+    return -self.awayOffset - self.rate * (elapsedAnimationTime - self.animationDelay - self.animationDuration - self.animationDelay);
+  }
+  return 0.f;
 }
 
 #pragma mark - Support

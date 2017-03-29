@@ -377,6 +377,7 @@ typedef NS_ENUM(NSUInteger, MarqueeType) {
 
 @property (nonatomic, assign, readonly) BOOL awayFromHome;
 
+-(CGFloat)scrollingOffset;
 
 
 ////////////////////////////////////////////////////////////////////////////////
